@@ -66,4 +66,17 @@ class Tet:
             new_tet.somatic[:,i] = np.random.choice(dup_somatic[:,i],45,False)
         new_tet.set_germline(self.germline)
         return new_tet
+        
+    def fitness(self,s=0.2,h=0.5):
+        """"""
+        deleterious = (self.somatic == -1)
+        beneficial = (self.somatic == 1)
+        d = sum((np.mean(deleterious,axis=0)**(np.log(h)/np.log(0.5)))*s)
+        b = sum((np.mean(beneficial,axis=0)**(np.log(h)/np.log(0.5)))*s)
+        w = 1 - d + b
+        return w
+        
+        
+        
+        
 
