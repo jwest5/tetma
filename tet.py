@@ -76,6 +76,16 @@ class Tet:
         w = 1 - d + b
         return w
         
+    def genomic_exclusion(self):
+        """"""
+        which_allele = np.random.binomial(1,0.5,self.L) == 0
+        hap_germ = np.where(which_allele,self.germline[0,:],self.germline[1,:])
+        homozygous = np.zeros((47,self.L))
+        homozygous[0:47,:] = hap_germ
+        homozygote = Tet(self.L,homozygous)
+        return homozygote
+        
+        
         
         
         
