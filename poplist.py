@@ -4,7 +4,7 @@ Created on Wed May 22 23:13:56 2013
 @author: joe
 """
 
-from tet import *
+from tetarr import *
 import numpy as np
 
 class Population(list):
@@ -23,7 +23,7 @@ class Population(list):
     def populate(self,N=10,L=100):
         """"""
         while len(self) < N:
-            self.append(Tet(L))
+            self.append(Tetarr(L))
         self.N = len(self)
             
     def reproduction(self):
@@ -50,13 +50,14 @@ class Population(list):
         self.mutation(mu_d)
         self.mutation(mu_b,1)
         w = self.fitness(s,h)
+        print w
         pw = []
         for i in range(self.N):
             pw.append(w[i]/sum(w))
         new_gen = Population()
-        new = np.random.choice(self,self.N,replace=True,p=pw)
+        new = np.random.choice(range(self.N),self.N,replace=True,p=pw)
         for i in range(self.N):
-            new_gen.append(new[i])
+            new_gen.append(self[new[i]])
         new_gen.generation = self.generation
         return new_gen
         

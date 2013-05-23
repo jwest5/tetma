@@ -20,10 +20,10 @@ class Tetarr(np.ndarray):
         If data is None, makes an array of zeros with shape=(47,L)
             """
         if data == None:
-            input_array = np.zeros((47,L))
+            input_array = np.zeros((47,L),dtype=np.int8)
         elif hasattr(data,'shape'):
             input_array = data.copy()
-        obj = np.asarray(input_array).view(cls)
+        obj = np.asarray(input_array,dtype=np.int8).view(cls)
         obj.germline = obj[:2]
         obj.somatic = obj[2:]
         obj.L = obj.shape[1]
