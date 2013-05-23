@@ -32,10 +32,10 @@ class Population(list):
             self[i] = self[i].reproduce()
         self.generation += 1
             
-    def mutation(self,mu):
+    def mutation(self,mu,value=-1):
         """"""
         for i in range(self.N):
-            self[i].mutate(mu)
+            self[i].mutate(mu,value)
             
     def fitness(self,s=0.2,h=0.5):
         """"""
@@ -44,10 +44,11 @@ class Population(list):
             w.append(self[i].fitness(s,h))
         return w
         
-    def next_generation(self,mu,s=0.2,h=0.5):
+    def next_generation(self,mu_d,mu_b,s=0.2,h=0.5):
         """"""
         self.reproduction()
-        self.mutation(mu)
+        self.mutation(mu_d)
+        self.mutation(mu_b,1)
         w = self.fitness(s,h)
         pw = []
         for i in range(self.N):
@@ -70,5 +71,6 @@ class Population(list):
         """"""
         gep = self.ge()
         return gep.fitness(s,h)
+        
         
         
