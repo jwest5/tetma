@@ -27,6 +27,10 @@ class Tet:
         self.germline = self.get_germline()
         self.somatic = self.get_somatic()
         
+    def __repr__(self):
+        """"""
+        return str(self.genomes)
+        
     def get_germline(self):
         """Returns the diploid germline genome"""
         return self.genomes[:2]
