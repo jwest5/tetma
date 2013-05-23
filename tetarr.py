@@ -51,9 +51,10 @@ class Tetarr(np.ndarray):
         
     def genomic_exclusion(self):
         """"""
-        which_allele = np.random.binomial(1,0.5,self.L) == 0
-        #hap_germ = np.where(which_allele,self.germline[0,:],self.germline[1,:])
-        hap_germ = which_allele.choose([self[0],self[1]],np.zeros((1,self.L)))        
+        which_allele = np.random.binomial(1,0.5,self.L)
+        #which_allele = (np.random.binomial(1,0.5,self.L) == 0)
+        #hap_germ = (np.where(which_allele,self.germline[0,:],self.germline[1,:])).reshape((1,self.L))
+        hap_germ = which_allele.choose([self[0,:],self[1,:]]).reshape((1,self.L))        
         homozygous = np.repeat(hap_germ,47,axis=0)
         homozygote = Tetarr(data=homozygous)
         return homozygote
