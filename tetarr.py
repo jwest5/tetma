@@ -7,9 +7,18 @@ Created on Thu May 23 00:00:25 2013
 import numpy as np
 
 class Tetarr(np.ndarray):
-    """"""
+    """numpy.ndarray subclass for representing individual organisms. A 47xL
+    array is used to represent the genomes. The first two rows of the array
+    correspond to the germline genome and the last 45 rows correspond to the
+    somatic genome. Each column corresponds to a locus, and each element in the
+    array specifies an allele (wild-type=0, deleterious mutation= -1,
+    beneficial mutation=1)"""
     def __new__(cls,L=100,data=None):
-        """"""
+        """Uses view casting of np.ndarray to make a Tetarr object.
+        L - number of loci
+        data - (should be) an array with shape=(47,L)
+        If data is None, makes an array of zeros with shape=(47,L)
+            """
         if data == None:
             input_array = np.zeros((47,L))
         elif hasattr(data,'shape'):
@@ -21,19 +30,30 @@ class Tetarr(np.ndarray):
         return obj
         
     def __array_finalize__(self, obj):
-        """"""
+        """Attributes:
+            L - number of loci (int)
+            germline - two rows of genomes array, corresponds to germline
+            somatic - 45 rows of genomes array, corresponds to somatic"""
         if obj is None: return
         self.germline = getattr(obj, 'germline', None)
         self.somatic = getattr(obj, 'somatic', None)
         self.L = getattr(obj, 'L', None)
         
     def mutate(self,mu,value = -1):
-        """"""
+        """Mutates each allele at each locus in each genome to the given value
+        with probability mu. Uses numpy.random.binomial to determine which
+        alleles mutate, then uses a boolean array to assign the value those
+        alleles. Right now, mutations are irreversible...
+        (currently using value = 0 for wild-type, value = -1 for deleterious
+        mutations, and value = 1 for beneficial mutations)."""
         mutants = (np.random.binomial(1,mu,self.shape) == 1) & (self == 0)
         self[mutants] = value
         
     def reproduce(self):
-        """"""
+        """Returns a new Tetarr object. The germline genome of the new
+        individual is copied from the progenater. To form the new somatic
+        genome, the somatic genome of the progenater is duplicated and each
+        locus is sampled without replacement 45 times via np.random.choice."""
         new_tet = Tetarr(data=self)
         dup_somatic = np.repeat(self.somatic,2,axis=0)
         for i in range(self.L):
