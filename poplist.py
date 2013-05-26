@@ -4,7 +4,7 @@ Created on Wed May 22 23:13:56 2013
 @author: joe
 """
 
-from tetarr import *
+from tet import *
 import numpy as np
 
 class Population(list):
@@ -14,6 +14,8 @@ class Population(list):
         list.__init__(self)
         self.N = len(self)
         self.generation = 0
+        self.somatic_fitness = None
+        self.germline_fitness = None
         
     def append(self,value):
         """"""
@@ -23,7 +25,7 @@ class Population(list):
     def populate(self,N=10,L=100):
         """"""
         while len(self) < N:
-            self.append(Tetarr(L))
+            self.append(Tet(L))
         self.N = len(self)
             
     def reproduction(self):
@@ -44,7 +46,7 @@ class Population(list):
             w.append(self[i].fitness(s,h))
         return w
         
-    def next_generation(self,mu_d,mu_b,s=0.2,h=0.5):
+    def next_generation(self,mu_d=0.000025,mu_b=0.0,s=0.2,h=0.5):
         """"""
         self.reproduction()
         self.mutation(mu_d)
