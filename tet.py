@@ -72,7 +72,7 @@ class Tet:
         return new_tet
         
     def fitness(self,s=0.2,h=0.5):
-        """"""
+        """Calculates additive fitness..."""
         deleterious = (self.somatic == -1)
         beneficial = (self.somatic == 1)
         d = sum((np.mean(deleterious,axis=0)**(np.log(h)/np.log(0.5)))*s)
@@ -81,7 +81,9 @@ class Tet:
         return w
         
     def genomic_exclusion(self):
-        """"""
+        """Generates a haploid genotype from the germline, then generates an
+        full homozygote. The resulting individual can be used to assess the
+        fitness of the germline."""
         which_allele = np.random.binomial(1,0.5,self.L) == 0
         hap_germ = np.where(which_allele,self.germline[0,:],self.germline[1,:])
         homozygous = np.zeros((47,self.L))
