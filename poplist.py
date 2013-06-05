@@ -6,6 +6,7 @@ Created on Wed May 22 23:13:56 2013
 
 from tet import *
 import numpy as np
+import pickle
 
 class Population(list):
     """Class used to contain the individuals in a population"""
@@ -73,6 +74,19 @@ class Population(list):
             new_gen.append(self[new[i]])
         new_gen.generation = self.generation
         return new_gen
+        
+    def pickle_save(self,outfile):
+        """"""
+        stream = open(outfile,'a')
+        pickle.dump(self,stream)
+        stream.close()
+        
+    def save_fitness(self,outfile,s=0.2,h=0.5):
+        """"""
+        fitness = self.fitness(s,h)
+        stream = open(outfile,'a')
+        pickle.dump(fitness,stream)
+        stream.close()
         
         
         
