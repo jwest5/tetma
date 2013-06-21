@@ -8,6 +8,8 @@ from poplist import *
 import pandas
 from pandas import Series,DataFrame
 
+# add runabunch function, readabunch function, and DA
+
 class Evo:
     """"""
     def __init__(self,popfile,somafile,germfile,L=100,mu_d=0.000025,mu_b=0.0,mu_effect=0.02,N=10,gens=1000):
@@ -39,7 +41,7 @@ class Evo:
             #next_gen.pickle_save(self.popfile)
             self.population = next_gen
             print self.population.generation
-        sfitness = DataFrame(self.somatic_fitness)
+        sfitness = DataFrame(self.somatic_fitness)  #change to series
         gfitness = DataFrame(self.germline_fitness)
         sfitness.to_csv(self.somafile)
         gfitness.to_csv(self.germfile)
