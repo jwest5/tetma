@@ -60,6 +60,7 @@ class Tet:
         NOTE: Doesn't check germline/somatic type or shape. FIX.
         """
         self.L = L
+        self.fitness = None
         if germline is None:
             self.germline = np.zeros((2,self.L))
         else:
@@ -101,10 +102,11 @@ class Tet:
         new_tet.germline = self.germline
         return new_tet
         
-    def fitness(self):
+    def set_fitness(self):
         """meh, it'll do for the moment... also, ignores dominance..."""
         w = sum(np.mean(self.somatic,axis=0))
-        return w
+        self.fitness = w
+        #return w
         
     def genomic_exclusion(self):
         """Generates a haploid genotype from the germline, then generates an
@@ -133,6 +135,10 @@ class Tet:
         new_soma[23:45,:] = o_germ
         progeny = Tet(self.L, new_germ, new_soma)
         return progeny
+        
+    def assorted(self):
+        """"""
+        
         
     def mutate_germline(self,mu,values):
         """Mutates each allele at each locus in the germline to the given value
